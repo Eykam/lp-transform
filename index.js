@@ -108,9 +108,16 @@ const ensureDirectoryExists = async (dirPath) => {
 // };
 
 // TODO: IMPLEMENT THIS
-async function transformImages() {
-  return page.replace(/regex to find images here/, (match) => {
-    return "Images with added alt tags here";
+// Find a way to check if already has an alt tag
+// If not, pull image name from src attribute
+// And use that as alt tag
+function transformImages(page) {
+  return page.replace(/<Image([^>/]*)\/>/g, (match, matchGroupOne) => {
+    console.log("===================================\nMatch Found!");
+    console.log("match:\n", match);
+    console.log("groupOne:\n", matchGroupOne);
+
+    return "REPLACED IMAGE ATTRIBUTE GOES HERE";
   });
 }
 
