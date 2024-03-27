@@ -135,7 +135,7 @@ function transformImages(page) {
 
       //IF ALT TAG DOESN'T EXIST, ADD IT ELSE DO NOTHING
       if (!altMatch) {
-        return match.replace(/\/>/, ` alt="${alt}" />`);
+        return match.replace(/\/>/, `  alt="${alt}" />`);
       } else {
         return match;
       }
