@@ -1,0 +1,26 @@
+{% extends "header.html" %} {% block content %}
+{% if error %}
+    <b class="text-red-400" role="alert">
+        {{ error }}
+    </b>
+{% else %}
+    <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
+        {# User's Profile Picture #}
+        <img class="rounded-2xl" src="data:image/png;base64,{{image}}" alt="image">
+        {# TODO: Indicate which user's reviews we're looking at #}
+        {{"Looking at " + username + "'s posts"}}
+    </div>
+    <div class="container mx-auto w-full md:w-2/3 lg:w-1/3">
+        {# TODO: Show all reviews made by the user #}
+        {% for review in reviews %}
+        <li class="review flex gap-2">
+          <div class="w-full">
+            <a href = "{{ url_for('movies.movie_detail', movie_id = review.imdb_id)}}">{{ review.movie_title}}</a>
+            <span class="review-date">{{ review.date }}</span>
+            <p class="review-content">{{ review.content }}</p>
+          </div>
+        </li>
+        {% endfor %}
+    </div>
+{% endif %}
+{% endblock %}

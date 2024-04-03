@@ -111,13 +111,35 @@ const ensureDirectoryExists = async (dirPath) => {
 // Find a way to check if already has an alt tag
 // If not, pull image name from src attribute
 // And use that as alt tag
+
+//SHOULD WORK BY USING REGEX TO FIND SRC AND USING THE LAST PATH FOR THE ALT
 function transformImages(page) {
-  return page.replace(/<Image([^>/]*)\/>/g, (match, matchGroupOne) => {
+  return page.replace(/<Image([\s\S]*?)\/>/g, (match, matchGroupOne) => {
+    console.log(page);
     console.log("===================================\nMatch Found!");
     console.log("match:\n", match);
     console.log("groupOne:\n", matchGroupOne);
 
-    return "REPLACED IMAGE ATTRIBUTE GOES HERE";
+    //REGEX TO FIND SRC AND ALT TAGS
+    const srcRegex = /src={?["']([^"']*)["']}?/;
+    const altRegex = /alt="([^"]*)"/;
+    const srcMatch = matchGroupOne.match(srcRegex);
+    const altMatch = matchGroupOne.match(altRegex);
+
+    //GETS THE SRC ATTRIBUTE AND SPLITS IT TO GET THE IMAGE NAME
+    if (srcMatch) {
+      const src = srcMatch[1];
+      const parts = src.split("/");
+      const imageName = parts[parts.length - 1];
+      const alt = imageName.split(".")[0].replace(/_/g, " ");
+
+      //IF ALT TAG DOESN'T EXIST, ADD IT ELSE DO NOTHING
+      if (!altMatch) {
+        return match.replace(/\/>/, `  alt="${alt}" />`);
+      } else {
+        return match;
+      }
+    }
   });
 }
 
